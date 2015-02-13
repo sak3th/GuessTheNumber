@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res-auto">
+    <attr name="actionCardViewBackground" format="color" />
+    <attr name="backgroundNumPlain" format="color" />
+    <attr name="backgroundNumSelected" format="color" />
+    <attr name="backgroundProfilePic" format="reference" />
+    <attr name="actionTextColorSecondary" format="reference" />
+</resources>

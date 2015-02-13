@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                        android:id="@+id/cardviewNewGame"
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        card_view:cardBackgroundColor="@android:color/holo_blue_dark"
+                                        card_view:cardCornerRadius="2dp"
+                                        card_view:cardElevation="1dp"
+                                        android:layout_marginBottom="30dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:id="@+id/relativeLayoutStatusBar">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_mood_white_48dp"
+                    android:id="@+id/imageViewMyPic"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:text="s t a t u s"
+                    android:id="@+id/textViewTurnStatus"/>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_mood_white_48dp"
+                    android:id="@+id/imageViewOppPic" />
+            </RelativeLayout>
+
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/button_material_light"/>-->
+
+            <!--<TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical|left"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Turn Status"
+                android:textStyle="italic"
+                android:id="@+id/textViewTurnStatus"/>-->
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical">
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="1"
+                    android:textStyle="bold"
+                    android:id="@+id/button1" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="2"
+                    android:textStyle="bold"
+                    android:id="@+id/button2" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="3"
+                    android:textStyle="bold"
+                    android:id="@+id/button3" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="4"
+                    android:textStyle="bold"
+                    android:id="@+id/button4" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="5"
+                    android:textStyle="bold"
+                    android:id="@+id/button5" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Nudge"
+                    android:textStyle="bold"
+                    android:id="@+id/textViewNudge"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Select / Guess"
+                    android:textStyle="bold"
+                    android:id="@+id/textViewSelectNGuess"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                        android:id="@+id/cardviewNewGame"
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        card_view:cardBackgroundColor="@android:color/holo_green_dark"
+                                        card_view:cardCornerRadius="2dp"
+                                        card_view:cardElevation="1dp"
+                                        android:layout_marginBottom="30dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:id="@+id/relativeLayoutStatusBar">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_mood_white_48dp"
+                    android:id="@+id/imageViewMyPic"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:text="s t a t u s"
+                    android:id="@+id/textViewTurnStatus"/>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_mood_white_48dp"
+                    android:id="@+id/imageViewOppPic" />
+            </RelativeLayout>
+
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/button_material_light"/>-->
+
+            <!--<TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical|left"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Turn Status"
+                android:textStyle="italic"
+                android:id="@+id/textViewTurnStatus"/>-->
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical">
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="1"
+                    android:textStyle="bold"
+                    android:id="@+id/button1" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="2"
+                    android:textStyle="bold"
+                    android:id="@+id/button2" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="3"
+                    android:textStyle="bold"
+                    android:id="@+id/button3" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="4"
+                    android:textStyle="bold"
+                    android:id="@+id/button4" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="5"
+                    android:textStyle="bold"
+                    android:id="@+id/button5" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Nudge"
+                    android:textStyle="bold"
+                    android:id="@+id/textViewNudge"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Select / Guess"
+                    android:textStyle="bold"
+                    android:id="@+id/textViewSelectNGuess"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                        android:id="@+id/cardviewNewGame"
+                                        android:layout_gravity="center"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        card_view:cardBackgroundColor="@android:color/holo_orange_dark"
+                                        card_view:cardCornerRadius="2dp"
+                                        card_view:cardElevation="1dp"
+                                        android:layout_marginBottom="30dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:id="@+id/relativeLayoutStatusBar">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_mood_white_48dp"
+                    android:id="@+id/imageViewMyPic"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:text="s t a t u s"
+                    android:id="@+id/textViewTurnStatus"/>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_mood_white_48dp"
+                    android:id="@+id/imageViewOppPic" />
+            </RelativeLayout>
+
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/button_material_light"/>-->
+
+            <!--<TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical|left"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Turn Status"
+                android:textStyle="italic"
+                android:id="@+id/textViewTurnStatus"/>-->
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical">
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="1"
+                    android:textStyle="bold"
+                    android:id="@+id/button1" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="2"
+                    android:textStyle="bold"
+                    android:id="@+id/button2" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="3"
+                    android:textStyle="bold"
+                    android:id="@+id/button3" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="4"
+                    android:textStyle="bold"
+                    android:id="@+id/button4" />
+                <Space android:layout_width="1dp" android:layout_height="fill_parent" android:layout_weight="20" />
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_num"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="5"
+                    android:textStyle="bold"
+                    android:id="@+id/button5" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Nudge"
+                    android:textStyle="bold"
+                    android:id="@+id/textViewNudge"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Select / Guess"
+                    android:textStyle="bold"
+                    android:id="@+id/textViewSelectNGuess"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+</LinearLayout>

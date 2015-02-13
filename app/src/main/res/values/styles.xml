@@ -1,0 +1,35 @@
+<resources xmlns:android="http://schemas.android.com/apk/res-auto">
+
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:progressBarStyle">@android:style/Widget.ProgressBar.Small</item>
+        <item name="android:windowFullscreen">true</item>
+
+        <item name="actionCardViewBackground">@color/cardview_light_background</item>
+
+        <item name="actionTextColorSecondary">@color/text_color_state_list</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:textColorTertiary">@color/textColorTertiary</item>
+
+        <item name="backgroundNumPlain">@color/backgroundNumColorPlain</item>
+        <item name="backgroundNumSelected">@color/backgroundNumColorSelected</item>
+        <item name="backgroundProfilePic">@drawable/ic_mood_black_48dp</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:progressBarStyle">@android:style/Widget.ProgressBar.Small</item>
+        <item name="android:windowFullscreen">true</item>
+
+        <item name="actionCardViewBackground">@color/cardview_dark_background</item>
+
+        <item name="actionTextColorSecondary">@color/text_color_state_list_light</item>
+        <item name="android:textColorPrimary">@color/textColorPrimaryLight</item>
+        <item name="android:textColorSecondary">@color/textColorSecondaryLight</item>
+        <item name="android:textColorTertiary">@color/textColorTertiaryLight</item>
+
+        <item name="backgroundNumPlain">@color/backgroundNumColorPlainLight</item>
+        <item name="backgroundNumSelected">@color/backgroundNumColorSelectedLight</item>
+        <item name="backgroundProfilePic">@drawable/ic_mood_white_48dp</item>
+    </style>
+
+</resources>

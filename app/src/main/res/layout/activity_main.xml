@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false" tools:context=".MainActivity">
+
+    <com.cinnamon.guess.utils.MyCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        card_view:cardElevation="5dp"
+        android:id="@+id/cardviewTitle">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="?backgroundProfilePic"
+            android:id="@+id/imageViewProfilePic"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|left"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="18dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Guess  The  Number"
+            android:textStyle="bold"
+            android:id="@+id/textViewAutoMatch"/>
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="14dp"
+            android:layout_marginTop="62dp"
+            android:elevation="5dp"
+            android:visibility="gone"
+            android:indeterminate="true"
+            android:id="@+id/progressSpinnerTop"/>
+    </com.cinnamon.guess.utils.MyCardView>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:indeterminate="true"
+        android:id="@+id/progressSpinnerCenter"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@id/cardviewTitle"
+        android:paddingTop="2dp"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:visibility="gone"
+        android:scrollbars="vertical"
+        android:id="@+id/recyclerviewMatches"/>
+
+</RelativeLayout>
