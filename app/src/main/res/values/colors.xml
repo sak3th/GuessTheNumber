@@ -7,19 +7,26 @@
     <color name="primary_dark">@color/indigo_700</color>
     <color name="accent">@color/pink_A200</color>-->
 
-    <color name="backgroundNumColorPlain">#DA000000</color>
-    <color name="backgroundNumColorSelected">#DAFFFFFF</color>
-    <color name="backgroundNumColorPlainLight">#DAFFFFFF</color>
-    <color name="backgroundNumColorSelectedLight">#DA000000</color>
+    <color name="num_plain">#DA000000</color>
+    <color name="num_selected">#DAFFFFFF</color>
+    <color name="num_disabled">#61000000</color>
+    <color name="num_plain_light">#DAFFFFFF</color>
+    <color name="num_selected_light">#DA000000</color>
+    <color name="num_disabled_light">#61FFFFFF</color>
 
-    <color name="textColorPrimary">#000000</color>
-    <color name="textColorSecondary">#DA000000</color>
-    <color name="textColorSecondaryDisabled">#41000000</color>
-    <color name="textColorTertiary">#8B000000</color>
-    <color name="textColorPrimaryLight">#FFFFFF</color>
-    <color name="textColorSecondaryLight">#DAFFFFFF</color>
-    <color name="textColorSecondaryDisabledLight">#41FFFFFF</color>
-    <color name="textColorTertiaryLight">#8BFFFFFF</color>
+    <color name="action">#DA000000</color>
+    <color name="action_disabled">#81000000</color>
+    <color name="action_light">#DAFFFFFF</color>
+    <color name="action_disabled_light">#81FFFFFF</color>
+
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#DA000000</color>
+    <color name="text_secondary_disabled">#41000000</color>
+    <color name="text_tertiary">#8B000000</color>
+    <color name="text_primary_light">#FFFFFF</color>
+    <color name="text_secondary_light">#DAFFFFFF</color>
+    <color name="text_secondary_disabled_light">#41FFFFFF</color>
+    <color name="text_tertiary_light">#8BFFFFFF</color>
 
     <color name="red_50">#fde0dc</color>
     <color name="red_100">#f9bdbb</color>

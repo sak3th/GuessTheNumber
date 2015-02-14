@@ -6,7 +6,7 @@
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_gravity="center"
-    card_view:cardBackgroundColor="?actionCardViewBackground"
+    card_view:cardBackgroundColor="?attr/colorActionCardBackground"
     card_view:cardCornerRadius="10dp"
     card_view:cardElevation="1dp"
     android:id="@+id/cardviewNewGame">
@@ -16,7 +16,7 @@
             android:layout_height="fill_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold"
-            android:textColor="?actionTextColorSecondary"
+            android:textColor="?attr/numTextColorSecondary"
             android:text="New  Match"
             android:gravity="center"
             android:layout_gravity="center"

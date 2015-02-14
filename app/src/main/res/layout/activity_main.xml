@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     android:clipToPadding="false" tools:context=".MainActivity">
 
-    <com.cinnamon.guess.utils.MyCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_height="70dp"
         android:layout_width="match_parent"
         card_view:cardElevation="5dp"
+        card_view:cardBackgroundColor="?attr/colorActionCardBackground"
         android:id="@+id/cardviewTitle">
         <ImageView
             android:layout_width="40dp"
@@ -39,7 +40,7 @@
             android:visibility="gone"
             android:indeterminate="true"
             android:id="@+id/progressSpinnerTop"/>
-    </com.cinnamon.guess.utils.MyCardView>
+    </android.support.v7.widget.CardView>
 
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"

@@ -4,15 +4,19 @@
         <item name="android:progressBarStyle">@android:style/Widget.ProgressBar.Small</item>
         <item name="android:windowFullscreen">true</item>
 
-        <item name="actionCardViewBackground">@color/cardview_light_background</item>
+        <item name="colorNumPlain">@color/num_plain</item>
+        <item name="colorNumSelected">@color/num_selected</item>
+        <item name="colorNumDisabled">@color/num_disabled</item>
 
-        <item name="actionTextColorSecondary">@color/text_color_state_list</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="android:textColorTertiary">@color/textColorTertiary</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:textColorTertiary">@color/text_tertiary</item>
 
-        <item name="backgroundNumPlain">@color/backgroundNumColorPlain</item>
-        <item name="backgroundNumSelected">@color/backgroundNumColorSelected</item>
+        <item name="colorActionCardBackground">@color/cardview_light_background</item>
+
+        <item name="numTextColorSecondary">@color/num_color_state_list</item>
+        <item name="actionTextColorSecondary">@color/num_color_state_list</item>
+
         <item name="backgroundProfilePic">@drawable/ic_mood_black_48dp</item>
     </style>
 
@@ -20,15 +24,19 @@
         <item name="android:progressBarStyle">@android:style/Widget.ProgressBar.Small</item>
         <item name="android:windowFullscreen">true</item>
 
-        <item name="actionCardViewBackground">@color/cardview_dark_background</item>
+        <item name="colorNumPlain">@color/num_plain_light</item>
+        <item name="colorNumSelected">@color/num_selected_light</item>
+        <item name="colorNumDisabled">@color/num_disabled_light</item>
 
-        <item name="actionTextColorSecondary">@color/text_color_state_list_light</item>
-        <item name="android:textColorPrimary">@color/textColorPrimaryLight</item>
-        <item name="android:textColorSecondary">@color/textColorSecondaryLight</item>
-        <item name="android:textColorTertiary">@color/textColorTertiaryLight</item>
+        <item name="android:textColorPrimary">@color/text_primary_light</item>
+        <item name="android:textColorSecondary">@color/text_secondary_light</item>
+        <item name="android:textColorTertiary">@color/text_tertiary_light</item>
 
-        <item name="backgroundNumPlain">@color/backgroundNumColorPlainLight</item>
-        <item name="backgroundNumSelected">@color/backgroundNumColorSelectedLight</item>
+        <item name="colorActionCardBackground">@color/cardview_dark_background</item>
+
+        <item name="numTextColorSecondary">@color/num_color_state_list_light</item>
+        <item name="actionTextColorSecondary">@color/num_color_state_list_light</item>
+
         <item name="backgroundProfilePic">@drawable/ic_mood_white_48dp</item>
     </style>
 

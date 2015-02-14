@@ -242,17 +242,25 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mMatchCardView.setCardBackgroundColor(color);
             // TODO set match state
             if (!mMatch.getTurnOf().equals(mEmail)) {
+                mTurnStatus.setText("O p p o n e n t ' s     t u r n");
                 for (Button button : mButtons) {
                     button.setEnabled(false);
+                    button.setSelected(false);
+                }
+                if (mMatch.getGuess() != -1) {
+                    mButtons[mMatch.getGuess()-1].setSelected(true);
                 }
                 mNudge.setVisibility(View.VISIBLE);
                 mNudge.setEnabled(mConnected);
                 mSelectNGuess.setVisibility(View.GONE);
-                mTurnStatus.setText("O p p o n e n t ' s     t u r n");
             } else {
                 mTurnStatus.setText("Y o u r     t u r n");
                 for (Button button : mButtons) {
                     button.setEnabled(true);
+                    button.setSelected(false);
+                }
+                if (mMatch.getNewGuess() != -1) {
+                    mButtons[mMatch.getNewGuess() - 1].setSelected(true);
                 }
                 mNudge.setVisibility(View.GONE);
                 mSelectNGuess.setVisibility(View.VISIBLE);
