@@ -154,7 +154,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Select / Guess"
                     android:textStyle="bold"
-                    android:id="@+id/textViewSelectNGuess"/>
+                    android:id="@+id/textViewGuessNSelect"/>
             </RelativeLayout>
 
 
@@ -312,7 +312,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Select / Guess"
                     android:textStyle="bold"
-                    android:id="@+id/textViewSelectNGuess"/>
+                    android:id="@+id/textViewGuessNSelect"/>
             </RelativeLayout>
 
 
@@ -469,7 +469,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Select / Guess"
                     android:textStyle="bold"
-                    android:id="@+id/textViewSelectNGuess"/>
+                    android:id="@+id/textViewGuessNSelect"/>
             </RelativeLayout>
 
 

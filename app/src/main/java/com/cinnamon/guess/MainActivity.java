@@ -265,17 +265,19 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onNumGuessed(Long id, boolean guess) {
+    public void onNumGuessed(Match match, boolean guess) {
         if (guess) {
             // TODO complete match
         } else {
-            //updateMatchAsync(id, -1);
+            // FIXME correct below code
+            //updateMatchAsync(match.getId(), -1);
         }
     }
 
     @Override
-    public void onNumPicked(Long id, int num) {
-        //updateMatchAsync(id, num);
+    public void onNumSelected(Match match, int num) {
+        //updateMatchAsync(match.getId(), num);
+        toast("Num " + num + " selected in match " + match.getId() );
     }
 
     @Override

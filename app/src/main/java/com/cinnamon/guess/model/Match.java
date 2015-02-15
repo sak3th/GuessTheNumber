@@ -8,6 +8,8 @@ import java.util.Random;
 
 public class Match {
 
+    public static final int NOT_SELECTED = -1;
+
     private static final int MAX_PLAYERS = 2;
 
     // TODO consider adding a state that allows storing the game after completion
@@ -89,7 +91,7 @@ public class Match {
         return players.add(email);
     }
 
-    public boolean isTurnToPick() {
+    public boolean isTurnToSelect() {
         return guess == -1;
     }
 

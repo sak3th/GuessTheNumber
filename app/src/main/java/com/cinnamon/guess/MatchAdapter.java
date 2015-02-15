@@ -1,6 +1,5 @@
 package com.cinnamon.guess;
 
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -105,6 +104,16 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public Match getMatch(Long id) {
+        // FIXME
+        return null;
+    }
+
+    public void updateMatch() {
+        // TODO
+        notifyDataSetChanged();
+    }
+
     public void removeMatch(Match match) {
         mMatches.remove(match);
         notifyDataSetChanged();
@@ -201,7 +210,7 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private ImageView mMyPic, mOppoPic;
         private Button mButton1, mButton2, mButton3, mButton4, mButton5;
         private Button[] mButtons;
-        private TextView mTurnStatus, mNudge, mSelectNGuess;
+        private TextView mTurnStatus, mNudge, mGuessNSelect;
 
         public MatchViewHolder(View v) {
             super(v);
@@ -225,9 +234,9 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             mTurnStatus = (TextView) v.findViewById(R.id.textViewTurnStatus);
             mNudge = (TextView) v.findViewById(R.id.textViewNudge);
-            mSelectNGuess = (TextView) v.findViewById(R.id.textViewSelectNGuess);
+            mGuessNSelect = (TextView) v.findViewById(R.id.textViewGuessNSelect);
             mNudge.setOnClickListener(this);
-            mSelectNGuess.setOnClickListener(this);
+            mGuessNSelect.setOnClickListener(this);
         }
 
         public void bindMatch(Match match, int pos) {
@@ -242,7 +251,7 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mMatchCardView.setCardBackgroundColor(color);
             // TODO set match state
             if (!mMatch.getTurnOf().equals(mEmail)) {
-                mTurnStatus.setText("O p p o n e n t ' s     t u r n");
+                mTurnStatus.setText(R.string.opp_turn);
                 for (Button button : mButtons) {
                     button.setEnabled(false);
                     button.setSelected(false);
@@ -252,37 +261,54 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
                 mNudge.setVisibility(View.VISIBLE);
                 mNudge.setEnabled(mConnected);
-                mSelectNGuess.setVisibility(View.GONE);
+                mGuessNSelect.setVisibility(View.GONE);
             } else {
-                mTurnStatus.setText("Y o u r     t u r n");
+                mTurnStatus.setText(R.string.your_turn);
                 for (Button button : mButtons) {
                     button.setEnabled(true);
                     button.setSelected(false);
                 }
-                if (mMatch.getNewGuess() != -1) {
-                    mButtons[mMatch.getNewGuess() - 1].setSelected(true);
+                if (mMatch.isTurnToSelect()) {
+                    mGuessNSelect.setText(R.string.select);
+                    if (mMatch.getNewGuess() == Match.NOT_SELECTED) {
+                        mGuessNSelect.setEnabled(false);
+                    } else {
+                        mGuessNSelect.setEnabled(true);
+                        mButtons[mMatch.getNewGuess() - 1].setSelected(true);
+                    }
+                } else {
+                    mGuessNSelect.setText(R.string.guess);
+                    if (mMatch.getNewGuess() == Match.NOT_SELECTED) {
+                        mGuessNSelect.setEnabled(false);
+                    } else {
+                        mGuessNSelect.setEnabled(true);
+                        mButtons[mMatch.getNewGuess() - 1].setSelected(true);
+                    }
                 }
                 mNudge.setVisibility(View.GONE);
-                mSelectNGuess.setVisibility(View.VISIBLE);
-                mSelectNGuess.setEnabled(mConnected);
+                mGuessNSelect.setVisibility(View.VISIBLE);
+                if (!mConnected) {
+                    mGuessNSelect.setEnabled(false);
+                }
             }
         }
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.textViewSelectNGuess) {
-                // FIXME why getTurnToPick instead of isTurnToPick
-                if (mMatch.isTurnToPick()) {
-                    mMatchUpdateCallback.onNumPicked(mMatch.getId(), mMatch.getNewGuess());
+            if (v.getId() == R.id.textViewGuessNSelect) {
+                // FIXME why getTurnToSelect instead of isTurnToSelect
+                if (mMatch.isTurnToSelect()) {
+                    mMatchUpdateCallback.onNumSelected(mMatch, mMatch.getNewGuess());
+                    mGuessNSelect.setEnabled(false);
                 } else {
                     // check if selected num is the right guess and update match
                     if (mMatch.getNewGuess() != mMatch.getGuess()) {
-                        mMatch.setGuess(-1);
-                        mMatch.setNewGuess(-1);
                         Toast.makeText(v.getContext(), "Wrong guess! \n Pick a number for opponent", Toast.LENGTH_LONG).show();
-                        mMatchUpdateCallback.onNumGuessed(mMatch.getId(), false);
+                        updateWrongGuess();
+                        mMatchUpdateCallback.onNumGuessed(mMatch, false);
                     } else {
-                        mMatchUpdateCallback.onNumGuessed(mMatch.getId(), true);
+                        updateRightGuess();
+                        mMatchUpdateCallback.onNumGuessed(mMatch, true);
                         Toast.makeText(v.getContext(), "Awesome guess!", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -295,11 +321,24 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         mMatch.setNewGuess(i+1);
                         selectGuess(i);
                         mButtons[i].setSelected(true);
-                        mSelectNGuess.setEnabled(true);
-                        Toast.makeText(v.getContext(), (i+1) + " clicked", Toast.LENGTH_SHORT).show();
+                        mGuessNSelect.setEnabled(true);
                     }
                 }
             }
+        }
+
+        private void updateWrongGuess() {
+            mMatch.setGuess(-1);
+            mMatch.setNewGuess(-1);
+            for (Button button : mButtons) {
+                button.setSelected(false);
+            }
+            mGuessNSelect.setEnabled(false);
+            mGuessNSelect.setText(R.string.select);
+        }
+
+        private void updateRightGuess() {
+            //mMatch.
         }
 
         private void selectGuess(int num) {
@@ -311,8 +350,8 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public interface OnMatchUpdateListener {
-        public void onNumGuessed(Long id, boolean guess);
-        public void onNumPicked(Long id, int num);
+        public void onNumGuessed(Match match, boolean guess);
+        public void onNumSelected(Match match, int num);
         public void onAutoNewMatchClicked();
         public void onFriendNewMatchClicked();
     }

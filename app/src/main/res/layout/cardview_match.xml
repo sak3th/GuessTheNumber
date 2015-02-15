@@ -159,7 +159,7 @@
                 android:textColor="?attr/actionTextColorSecondary"
                 android:textStyle="bold"
                 android:text="Select / Guess"
-                android:id="@+id/textViewSelectNGuess"/>
+                android:id="@+id/textViewGuessNSelect"/>
         </RelativeLayout>
 
 
