@@ -294,7 +294,7 @@ public class MainActivity extends BaseActivity implements
     private void startApp() {
         if (mGoogleApiClient.isConnected()) {
             if (!SharedPrefs.getDeviceRegistered(mContext)) {
-                toast("Device not registered");
+                toast("Registering device");
                 registerDevice();
             } else {
                 toast("Device is registered");
@@ -329,7 +329,7 @@ public class MainActivity extends BaseActivity implements
             @Override
             protected void onPostExecute(String s) {
                 mProgressBarCenter.setVisibility(View.GONE);
-                mRecyclerView.setVisibility(View.VISIBLE);
+                mAdapter.setDeviceRegistered(true);
                 Log.d(TAG, "registerDevice(post): " + s);
                 SharedPrefs.setDeviceRegistered(mContext, true);
             }

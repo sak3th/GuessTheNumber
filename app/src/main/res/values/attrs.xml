@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="myapp">
 
         <attr name="colorActionCardBackground" format="color" />
 
@@ -8,11 +7,12 @@
         <attr name="colorNumSelected" format="color" />
         <attr name="colorNumDisabled" format="color" />
 
+        <attr name="numBg" format="reference" />
+
         <attr name="backgroundProfilePic" format="reference" />
 
         <attr name="numTextColorSecondary" format="reference" />
 
         <attr name="actionTextColorSecondary" format="reference" />
 
-    </declare-styleable>
 </resources>

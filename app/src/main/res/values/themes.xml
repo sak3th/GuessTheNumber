@@ -1,4 +1,4 @@
-<resources xmlns:android="http://schemas.android.com/apk/res-auto">
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:progressBarStyle">@android:style/Widget.ProgressBar.Small</item>
@@ -7,6 +7,7 @@
         <item name="colorNumPlain">@color/num_plain</item>
         <item name="colorNumSelected">@color/num_selected</item>
         <item name="colorNumDisabled">@color/num_disabled</item>
+        <item name="numBg">@drawable/bg_num</item>
 
         <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:textColorSecondary">@color/text_secondary</item>
@@ -27,6 +28,7 @@
         <item name="colorNumPlain">@color/num_plain_light</item>
         <item name="colorNumSelected">@color/num_selected_light</item>
         <item name="colorNumDisabled">@color/num_disabled_light</item>
+        <item name="numBg">@drawable/bg_num_light</item>
 
         <item name="android:textColorPrimary">@color/text_primary_light</item>
         <item name="android:textColorSecondary">@color/text_secondary_light</item>

@@ -315,7 +315,7 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } else if (v.getId() == R.id.textViewNudge) {
                 Toast.makeText(v.getContext(), "Nudge is not supported yet!", Toast.LENGTH_LONG).show();
             } else {
-                Log.d(TAG, v.getId() + " rbutton clicked " );
+                Log.d(TAG, v.getId() + " button clicked " );
                 for (int i = 0; i < 5; i++) {
                     if (v.getId() == mButtons[i].getId()) {
                         mMatch.setNewGuess(i+1);
