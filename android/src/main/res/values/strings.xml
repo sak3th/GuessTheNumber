@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="your_turn">"Y o u r     t u r n"</string>
-    <string name="opp_turn">O p p o n e n t \' s     t u r n</string>
+    <string name="opp_turn">O p p o n e n t \' s\u00A0\u00A0\u00A0\u00A0t u r n</string>
     <string name="guess">Guess</string>
     <string name="select">Select</string>
 </resources>

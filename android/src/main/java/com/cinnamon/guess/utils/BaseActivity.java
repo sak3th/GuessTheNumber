@@ -11,7 +11,11 @@ import com.cinnamon.guess.GuessApp;
 import com.cinnamon.guess.R;
 import com.cinnamon.guess.SharedPrefs;
 
-public abstract class BaseActivity  extends Activity  implements GuessApp.ConnectivityListener {
+import java.util.ArrayList;
+
+public abstract class BaseActivity extends Activity  implements
+        GuessApp.ConnectivityListener,
+        NetworkTask.NetworkTaskListener {
     private static final String TAG = "GuessBaseActivity";
 
     protected static final int TOAST_LONG = Toast.LENGTH_LONG;
@@ -28,6 +32,8 @@ public abstract class BaseActivity  extends Activity  implements GuessApp.Connec
 
     private View mDecorView;
 
+    protected ArrayList<NetworkTask> mNetworkTasks;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(SharedPrefs.getDarkTheme(getApplicationContext())? R.style.AppThemeDark : R.style.AppThemeLight);
@@ -35,6 +41,7 @@ public abstract class BaseActivity  extends Activity  implements GuessApp.Connec
         mCurrentApiVersion = Build.VERSION.SDK_INT;
         setupDecorView();
         mConnected = GuessApp.getInstance().isConnected();
+        mNetworkTasks = new ArrayList<>();
     }
 
     @Override
@@ -47,6 +54,14 @@ public abstract class BaseActivity  extends Activity  implements GuessApp.Connec
     protected void onStop() {
         super.onStop();
         GuessApp.getInstance().unregisterConnectivityListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        for (NetworkTask task : mNetworkTasks) {
+            task.cancel(true);
+        }
     }
 
     @Override
@@ -86,4 +101,15 @@ public abstract class BaseActivity  extends Activity  implements GuessApp.Connec
         // deal with connectivity changes
     }
 
+    public void onTaskCreated(NetworkTask task) {
+        mNetworkTasks.add(task);
+    }
+
+    public void onTaskDestroyed(NetworkTask task) {
+        mNetworkTasks.remove(task);
+    }
+
+    protected void toast(String str) {
+        Toast.makeText(getApplicationContext(), str, TOAST_LONG).show();
+    }
 }

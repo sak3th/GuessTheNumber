@@ -15,6 +15,7 @@ public class SharedPrefs {
         return context.getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
     }
 
+
     private static final String PROPERTY_REG_ID = "key_reg_id";
     static String getRegistrationId(Context context) {
         final SharedPreferences prefs = getSharedPreferences(context);
@@ -41,6 +42,17 @@ public class SharedPrefs {
     }
 
 
+    private static final String PREF_ACCOUNT_NAME = "key_pref_acc_name";
+    static String getPrefAccountName(Context context) {
+        final SharedPreferences prefs = getSharedPreferences(context);
+        return prefs.getString(PREF_ACCOUNT_NAME, null);
+    }
+    static void setPrefAccountName(Context context, String accountName) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(PREF_ACCOUNT_NAME, accountName).commit();
+    }
+
+
     private static final String PROPERTY_APP_VERSION = "key_app_version";
     static int getAppVersion(Context context) {
         try {
@@ -51,17 +63,6 @@ public class SharedPrefs {
             // should never happen
             throw new RuntimeException("Could not get package name: " + e);
         }
-    }
-
-
-    private static final String PREF_ACCOUNT_NAME = "key_pref_acc_name";
-    static String getPrefAccountName(Context context) {
-        final SharedPreferences prefs = getSharedPreferences(context);
-        return prefs.getString(PREF_ACCOUNT_NAME, null);
-    }
-    static void setPrefAccountName(Context context, String accountName) {
-        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putString(PREF_ACCOUNT_NAME, accountName).commit();
     }
 
 

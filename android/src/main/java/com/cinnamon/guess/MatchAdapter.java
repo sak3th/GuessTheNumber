@@ -10,14 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cinnamon.guess.model.Match;
+import com.cinnamon.guess.matchApi.model.Match;
 import com.cinnamon.guess.utils.MatchCardView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = "Geo" + MatchAdapter.class.getSimpleName();
+    private static final String TAG = "Guess" + MatchAdapter.class.getSimpleName();
+
+    private static final int NO_SELECTION = -1;
 
     private static final int ITEM_NEW_MATCH = 1;
     private static final int ITEM_MESSAGE = 2;
@@ -104,14 +106,36 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void clear() {
+        mMatches.clear();
+        notifyDataSetChanged();
+    }
+
     public Match getMatch(Long id) {
         // FIXME
         return null;
     }
 
-    public void updateMatch() {
-        // TODO
-        notifyDataSetChanged();
+    public void updateMatch(Match match) {
+        boolean exists = false;
+        for (int i = 0; i < mMatches.size(); i++) {
+            Log.d(TAG, "i value : " + i );
+           // if (mMatches.get(i).equals(match)) {
+           if (matchEquals(mMatches.get(i), match)) {
+                Log.d(TAG, "match found " + mMatches.get(i) );
+                exists = true;
+                if (!matchStateEquals(mMatches.get(i), match)) {
+                    Log.d(TAG, "updating match at " + i );
+                    mMatches.set(i, match);
+                    notifyDataSetChanged();
+                }
+                break;
+            }
+        }
+        if (!exists) {
+            Log.d(TAG, "adding match: " + match );
+            addMatch(match);
+        }
     }
 
     public void removeMatch(Match match) {
@@ -217,10 +241,6 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mMatchCardView = (MatchCardView) v.findViewById(R.id.cardviewMatch);
             mMyPic = (ImageView) v.findViewById(R.id.imageViewMyPic);
             mOppoPic = (ImageView) v.findViewById(R.id.imageViewOppPic);
-            /*int imgId = SharedPrefs.getDarkTheme(v.getContext()) ?
-                    R.drawable.ic_mood_black_48dp : R.drawable.ic_mood_white_48dp;
-            mMyPic.setImageResource(imgId);
-            mOppoPic.setImageResource(imgId);*/
 
             mButton1 = (Button) v.findViewById(R.id.button1);
             mButton2 = (Button) v.findViewById(R.id.button2);
@@ -244,8 +264,6 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             int size = MatchCardView.sDarkBgColors.length;
             if (pos >= size) {
                 pos = pos % size;
-            } else {
-                ;
             }
             int color = mMatchCardView.getResources().getColor(MatchCardView.sDarkBgColors[pos]);
             mMatchCardView.setCardBackgroundColor(color);
@@ -268,9 +286,9 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     button.setEnabled(true);
                     button.setSelected(false);
                 }
-                if (mMatch.isTurnToSelect()) {
+                if (isTurnToSelect(mMatch)) {
                     mGuessNSelect.setText(R.string.select);
-                    if (mMatch.getNewGuess() == Match.NOT_SELECTED) {
+                    if (mMatch.getNewGuess() == NO_SELECTION) {
                         mGuessNSelect.setEnabled(false);
                     } else {
                         mGuessNSelect.setEnabled(true);
@@ -278,7 +296,7 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     }
                 } else {
                     mGuessNSelect.setText(R.string.guess);
-                    if (mMatch.getNewGuess() == Match.NOT_SELECTED) {
+                    if (mMatch.getNewGuess() == NO_SELECTION) {
                         mGuessNSelect.setEnabled(false);
                     } else {
                         mGuessNSelect.setEnabled(true);
@@ -297,7 +315,7 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public void onClick(View v) {
             if (v.getId() == R.id.textViewGuessNSelect) {
                 // FIXME why getTurnToSelect instead of isTurnToSelect
-                if (mMatch.isTurnToSelect()) {
+                if (isTurnToSelect(mMatch)) {
                     mMatchUpdateCallback.onNumSelected(mMatch, mMatch.getNewGuess());
                     mGuessNSelect.setEnabled(false);
                 } else {
@@ -319,7 +337,7 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 for (int i = 0; i < 5; i++) {
                     if (v.getId() == mButtons[i].getId()) {
                         mMatch.setNewGuess(i+1);
-                        selectGuess(i);
+                        updateGuess(i);
                         mButtons[i].setSelected(true);
                         mGuessNSelect.setEnabled(true);
                     }
@@ -341,12 +359,33 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             //mMatch.
         }
 
-        private void selectGuess(int num) {
+        private void updateGuess(int num) {
             for (Button button : mButtons) {
                 button.setSelected(false);
             }
             mButtons[num].setSelected(true);
         }
+
+        private void updateSelectNum(int num) {
+
+        }
+    }
+
+    private static boolean isTurnToSelect(Match match) {
+        return  match.getGuess() == -1;
+    }
+
+    private static boolean matchEquals(Match left, Match right) {
+        if (left == null || right == null) return false;
+        return (left.getId().equals(right.getId()));
+    }
+
+    private static boolean matchStateEquals(Match left, Match right) {
+        if (left == null || right == null) return false;
+        //if (left.getState() != right.getState()) return false;
+        if (left.getGuess() != right.getGuess()) return false;
+        if (left.getNewGuess() != right.getNewGuess()) return false;
+        return (left.getTurnOf().equals(right.getTurnOf()));
     }
 
     public interface OnMatchUpdateListener {

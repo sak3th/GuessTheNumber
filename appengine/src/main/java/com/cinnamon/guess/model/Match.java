@@ -1,14 +1,17 @@
 package com.cinnamon.guess.model;
 
-import android.graphics.RadialGradient;
+
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
+@Entity
 public class Match {
 
-    public static final int NOT_SELECTED = -1;
+    public static final int NO_SELECTION = -1;
 
     private static final int MAX_PLAYERS = 2;
 
@@ -24,8 +27,9 @@ public class Match {
 
     State state;
 
-    Long id; // unique id of the match
+    @Id Long id; // unique id of the match
 
+    @Index
     List<String> players;
 
     String turnOf; // unique id of the player
@@ -35,31 +39,23 @@ public class Match {
     public Match() {
         players = new ArrayList<String>();
         state = State.INIT;
-        guess = newGuess = -1;
+        guess = newGuess = NO_SELECTION;
     }
 
-    public Match(int i) {
-        players = new ArrayList<String>();
-        guess = newGuess = -1;
-        state = State.ACTIVE;;
-        players.add("v.saketh@gmail.com");
-        players.add("bavya183@gmail.com");
-        if (i == 1) {
-            id = new Random().nextLong();
-            turnOf = "v.saketh@gmail.com";
-            guess = 3;
-        } else {
-            id = new Random().nextLong();
-            turnOf = "bavya183@gmail.com";
-            guess = 4;
-        }
-    }
     public Long getId() {
         return id;
     }
 
     public List<String> getPlayers() {
         return players;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public String getTurnOf() {
@@ -92,18 +88,18 @@ public class Match {
     }
 
     public boolean isTurnToSelect() {
-        return guess == -1;
+        return guess == NO_SELECTION;
     }
 
     public boolean addWrongGuessMove(String player) {
         if (! player.equals(turnOf)) {
             return false;
         }
-        guess = newGuess = -1;
+        guess = newGuess = NO_SELECTION;
         return true;
     }
 
-    public boolean addPickNumMove(int newGuess, String player) {
+    public boolean addSelectNumMove(int newGuess, String player) {
         if (! player.equals(turnOf)) {
             return false;
         }

@@ -4,10 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,21 +13,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.cinnamon.guess.model.Match;
+import com.cinnamon.guess.matchApi.MatchApi;
+import com.cinnamon.guess.matchApi.model.Match;
+import com.cinnamon.guess.registration.Registration;
 import com.cinnamon.guess.utils.BaseActivity;
 import com.cinnamon.guess.utils.NetworkTask;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.Random;
+import java.util.List;
 
 
 public class MainActivity extends BaseActivity implements
@@ -39,12 +37,18 @@ public class MainActivity extends BaseActivity implements
         MatchAdapter.OnMatchUpdateListener {
     private static final String TAG = "GuessMainActivity";
 
+    public static final String ACTION_NEW_MATCH = "com.cinnamon.guess.ACTION_NEW_MATCH";
+    public static final String ACTION_MATCH_UPDATE = "com.cinnamon.guess.ACTION_MATCH_UPDATE";
+
+
     private static final String KEY_IN_RESOLUTION = "is_in_resolution";
     protected static final int REQUEST_CODE_RESOLUTION = 1;
 
     private GoogleApiClient mGoogleApiClient;
-    private Context mContext;
     private boolean mIsInResolution;
+    private GoogleCloudMessaging mGcm;
+
+    private Context mContext;
 
     private ProgressBar mProgressBar;
     private ProgressBar mProgressBarCenter;
@@ -69,39 +73,23 @@ public class MainActivity extends BaseActivity implements
                 .build();
     }
 
-    private void setProfilePic() {
-        new NetworkTask<Void, Drawable>() {
-            @Override
-            protected Drawable doInBackground(Void... params) {
-                Person p = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-                if (p != null) {
-                    if (p.getImage().hasUrl()) {
-                        String imgUrl = p.getImage().getUrl();
-                        Log.d(TAG, "url: " + imgUrl.replace("50", "200"));
-                        imgUrl = imgUrl.replace("50", "200");
-                        try {
-                            final RoundedBitmapDrawable d =
-                                    RoundedBitmapDrawableFactory.create(getResources(), new URL(imgUrl).openConnection().getInputStream());
-                            d.setAntiAlias(true);
-                            d.setCornerRadius(Math.max(d.getMinimumWidth(), d.getMinimumHeight()) / 2.0f);
-                            return  d;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    } else {
-                        toast("does not have url");
-                    }
-                } else {
-                    toast("person is null");
-                }
-                return null;
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String matchId = intent.getStringExtra(GuessApp.KEY_MATCH_ID);
+        Log.d(TAG, "onNewIntent: " + intent.getAction());
+        Log.d(TAG, "onNewIntent: " + matchId);
+        if (ACTION_NEW_MATCH.equals(intent.getAction())) {
+            if (matchId !=  null) {
+                getMatchAsync(Long.valueOf(matchId));
             }
-            @Override
-            protected void onPostExecute(Drawable drawable) {
-                //mProfilePic.setImageDrawable(drawable);
+        } else if (ACTION_MATCH_UPDATE.equals(intent.getAction())){
+            if (matchId != null) {
+                getMatchAsync(Long.valueOf(matchId));
             }
-        }.execute();
+        } else {
+            Log.d(TAG, "invalid intent");
+        }
     }
 
     @Override
@@ -109,9 +97,6 @@ public class MainActivity extends BaseActivity implements
         super.onStart();
         initViews();
         mGoogleApiClient.connect();
-        if (!mConnected) {
-            //mAdapter.setMessage("Not connected to Internet.");
-        }
     }
 
     @Override
@@ -173,15 +158,15 @@ public class MainActivity extends BaseActivity implements
 
         startApp();
 
-        setProfilePic();
+        //setProfilePic();
 
         /* // TODO registerGcm
         mGcm = GoogleCloudMessaging.getInstance(mContext);
         String regId = SharedPrefs.getRegistrationId(mContext);
         Log.d(TAG, "onConnected " + regId);
         if (regId == null) {
-            Log.d(TAG, "onConnected called registerGcmidAsync" );
-            registerGcmidAsync(); //FIXME wait to see if gcm id is registered
+            Log.d(TAG, "onConnected called registerGcmAsync" );
+            registerGcmAsync(); //FIXME wait to see if gcm id is registered
         }*/
 
     }
@@ -270,20 +255,21 @@ public class MainActivity extends BaseActivity implements
             // TODO complete match
         } else {
             // FIXME correct below code
-            //updateMatchAsync(match.getId(), -1);
+            updateMatchAsync(match.getId(), -1);
         }
     }
 
     @Override
     public void onNumSelected(Match match, int num) {
         //updateMatchAsync(match.getId(), num);
-        toast("Num " + num + " selected in match " + match.getId() );
+        toast("Num " + num + " selected in match " + match.getId());
+        updateMatchAsync(match.getId(), num);
     }
 
     @Override
     public void onAutoNewMatchClicked() {
         //toast("onAutoNewMatchClicked");
-        startNewMatchAsync();
+        createMatchAsync();
     }
 
     @Override
@@ -293,12 +279,18 @@ public class MainActivity extends BaseActivity implements
 
     private void startApp() {
         if (mGoogleApiClient.isConnected()) {
-            if (!SharedPrefs.getDeviceRegistered(mContext)) {
-                toast("Registering device");
-                registerDevice();
+            String regId = SharedPrefs.getRegistrationId(mContext);
+            if (regId == null) {
+                registerGcmAsync();
             } else {
-                toast("Device is registered");
-                mAdapter.setDeviceRegistered(true);
+                if (!SharedPrefs.getDeviceRegistered(mContext)) {
+                    toast("Registering device");
+                    registerDevice(regId);
+                } else {
+                    toast("Device is registered");
+                    mAdapter.setDeviceRegistered(true);
+                    getMatchesAsync();
+                }
             }
         } else {
             mGoogleApiClient.connect();
@@ -307,64 +299,217 @@ public class MainActivity extends BaseActivity implements
 
     private void setSelectedAccountName(String accountName) {
         SharedPrefs.setPrefAccountName(mContext, accountName);
+        GuessApp.getInstance().getCredential().setSelectedAccountName(accountName);
     }
 
-    private void registerDevice() {
-        new NetworkTask<String, String>() {
+    private void registerGcmAsync() {
+        new NetworkTask<Void, String>(mProgressBarCenter, this) {
             @Override
-            protected void onPreExecute() {
-                mProgressBarCenter.setVisibility(View.VISIBLE);
-            }
-            @Override
-            protected String doInBackground(String[] params) {
-                Log.d(TAG, "registerDevice: " + params[0]);
+            protected String doInBackground(Void... params) {
+                String regid = "";
                 try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    if (mGcm == null) {
+                        mGcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+                    }
+                    regid = mGcm.register(getResources().getString(R.string.app_id));
+                    Log.d(TAG, "GCM resgitration complete!");
+                    //toast("GCM resgitration complete!");
+                    SharedPrefs.storeRegistrationId(getApplicationContext(), regid);
+                } catch (IOException ex) {
+                    //toast("registerGcmAsync " + ex.getMessage());
+                    Log.e(TAG, "registerGcmAsync " + ex.getMessage());
+                    // TODO fix this
+                    // If there is an error, don't just keep trying to register.
+                    // Require the user to click a button again, or perform
+                    // exponential back-off.
+                } finally {
+                    return regid;
                 }
-                return "saketh";
-                //return null;
             }
             @Override
-            protected void onPostExecute(String s) {
-                mProgressBarCenter.setVisibility(View.GONE);
-                mAdapter.setDeviceRegistered(true);
-                Log.d(TAG, "registerDevice(post): " + s);
-                SharedPrefs.setDeviceRegistered(mContext, true);
+            protected void onPostExecute(String regId) {
+                registerDevice(regId);
             }
-        }.execute("saketh");
+        }.execute();
     }
-
-    private void startNewMatchAsync() {
-        new NetworkTask<String, String>() {
+    private void registerDevice(String regid) {
+        new NetworkTask<String, Boolean>(mProgressBarCenter, this) {
             @Override
-            protected void onPreExecute() {
-                mProgressBar.setVisibility(View.VISIBLE);
-            }
-            @Override
-            protected String doInBackground(String[] params) {
+            protected Boolean doInBackground(String[] params) {
                 Log.d(TAG, "registerDevice: " + params[0]);
+                boolean res = false;
+                Registration mGcmRegApi = GuessApp.getInstance().getGcmRegistrationApi();
+                if (params[0] == null) return false;
                 try {
-                    //Thread.sleep(3000);
-                    Thread.sleep(30);
-                } catch (InterruptedException e) {
+                    Log.d(TAG, "registering device with " + params[0]);
+                    mGcmRegApi.register(params[0]).execute();
+                    res = true;
+                } catch (IOException e) {
                     e.printStackTrace();
+                    Log.e(TAG, "registerDevice " + e.getStackTrace());
+                } finally {
+                    return res;
                 }
-                return "saketh";
-                //return null;
+
             }
             @Override
-            protected void onPostExecute(String s) {
-                mProgressBar.setVisibility(View.GONE);
-                //Log.d(TAG, "matches not available ");
-                Match match = new Match(new Random().nextInt(2));
-                mAdapter.addMatch(match);
+            protected void onPostExecute(Boolean res) {
+                if (!isCancelled()) {
+                    mAdapter.setDeviceRegistered(true);
+                    Log.d(TAG, "registerDevice(post): " + res);
+                    SharedPrefs.setDeviceRegistered(mContext, res);
+                    if (res) {
+                        getMatchesAsync();
+                    }
+                }
+                super.onPostExecute(null);
             }
-        }.execute("saketh");
+        }.execute(regid);
     }
 
-    private void toast(String str) {
-        Toast.makeText(mContext, str, TOAST_LONG).show();
+    private void createMatchAsync() {
+        new NetworkTask<Void, Match>(mProgressBar, this) {
+            protected Match doInBackground(Void... params) {
+                MatchApi matchApi = GuessApp.getInstance().getMatchApi();
+                Match match = null;
+                try {
+                    match = matchApi.createMatch().execute();
+                } catch (Exception e) {
+                    Log.e(TAG, "createMatchAsync: " + e.getMessage());
+                } finally {
+                    return match;
+                }
+            }
+            @Override
+            protected void onPostExecute(Match match) {
+                if (! isCancelled()) {
+                    Log.d(TAG, "createMatchAsync - " + match);
+                    if (match != null) {
+                        mAdapter.addMatch(match);
+                    } else {
+                        toast("Matches not available now. Try again later.");
+                    }
+                }
+                super.onPostExecute(null);
+            }
+        }.execute();
     }
+
+    private void getMatchesAsync() {
+        new NetworkTask<Void, List<Match>>(mProgressBar, this) {
+            @Override
+            protected List<Match> doInBackground(Void... params) {
+                MatchApi matchApi = GuessApp.getInstance().getMatchApi();
+                List<Match> matches = null;
+                try {
+                    matches = matchApi.getMatches().execute().getItems();
+                } catch (IOException e) {
+                    Log.e(TAG, "getMatchesAsync "  + e.getMessage());
+                } finally {
+                    return matches;
+                }
+            }
+            @Override
+            protected void onPostExecute(List<Match> matches) {
+                if (!isCancelled()) {
+                    int size = (matches == null) ? 0 : matches.size();
+                    toast( size + " matches retrieved");
+                    // FIXME change code to use change timestamps
+                    if (matches != null) {
+                        mAdapter.clear();
+                        mAdapter.setMatches(matches);
+                    }
+                }
+                super.onPostExecute(null);
+            }
+        }.execute();
+    }
+
+    private void getMatchAsync(Long id) {
+        new NetworkTask<Long, Match>(mProgressBar, this) {
+            @Override
+            protected Match doInBackground(Long... params) {
+                MatchApi matchApi = GuessApp.getInstance().getMatchApi();
+                Match match = null;
+                try {
+                    match = matchApi.getMatch(params[0]).execute();
+                } catch (Exception e) {
+                    Log.e(TAG, "getMatchAsync: " + e.getMessage());
+                } finally {
+                    return match;
+                }
+            }
+            @Override
+            protected void onPostExecute(Match match) {
+                if (!isCancelled()) {;
+                    Log.d(TAG, "getMatchAsync - " + match);
+                    // FIXME update based on timestamps
+                    mAdapter.updateMatch(match);
+                }
+                super.onPostExecute(null);
+            }
+        }.execute(id);
+    }
+
+    private void updateMatchAsync(Long id, int guess) {
+        new NetworkTask<Long, Match>(mProgressBar, this) {
+            @Override
+            protected Match doInBackground(Long... params) {
+                MatchApi matchApi = GuessApp.getInstance().getMatchApi();
+                Match match = null;
+                try {
+                    match = matchApi.addMove(params[0], params[1].intValue()).execute();
+                } catch (Exception e) {
+                    Log.e(TAG, "updateMatchAsync: " + e.getMessage());
+                } finally {
+                    return match;
+                }
+            }
+            @Override
+            protected void onPostExecute(Match match) {
+                if (!isCancelled()) {;
+                    Log.d(TAG, "updateMatchAsync - " + match);
+                    if (match != null) {
+                        mAdapter.updateMatch(match);
+                    }
+                }
+                super.onPostExecute(null);
+            }
+        }.execute(id, Long.valueOf(guess));
+    }
+
+    /*private void setProfilePic() {
+        new NetworkTask<Void, Drawable>() {
+            @Override
+            protected Drawable doInBackground(Void... params) {
+                Person p = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+                if (p != null) {
+                    if (p.getImage().hasUrl()) {
+                        String imgUrl = p.getImage().getUrl();
+                        Log.d(TAG, "url: " + imgUrl.replace("50", "200"));
+                        imgUrl = imgUrl.replace("50", "200");
+                        try {
+                            final RoundedBitmapDrawable d =
+                                    RoundedBitmapDrawableFactory.create(getResources(), new URL(imgUrl).openConnection().getInputStream());
+                            d.setAntiAlias(true);
+                            d.setCornerRadius(Math.max(d.getMinimumWidth(), d.getMinimumHeight()) / 2.0f);
+                            return  d;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    } else {
+                        toast("does not have url");
+                    }
+                } else {
+                    toast("person is null");
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Drawable drawable) {
+                //mProfilePic.setImageDrawable(drawable);
+            }
+        }.execute();
+    }*/
 }
