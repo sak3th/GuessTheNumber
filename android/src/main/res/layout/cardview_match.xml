@@ -32,7 +32,7 @@
                 android:padding="2dp"
                 android:scaleType="centerCrop"
                 android:src="?backgroundProfilePic"
-                android:id="@+id/imageViewMyPic"/>
+                android:id="@+id/imageViewOppPic"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
@@ -43,31 +43,58 @@
                 android:text="s t a t u s"
                 android:id="@+id/textViewTurnStatus"/>
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:padding="2dp"
                 android:scaleType="centerCrop"
-                android:src="?backgroundProfilePic"
-                android:id="@+id/imageViewOppPic" />
+                android:id="@+id/imageViewMyPic" />
         </RelativeLayout>
 
-        <!--<View
+        <TextView
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/button_material_light"/>-->
-
-        <!--<TextView
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="80dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:gravity="center_vertical|left"
+            android:gravity="center"
+            android:visibility="gone"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Turn Status"
-            android:textStyle="italic"
-            android:id="@+id/textViewTurnStatus"/>-->
+            android:id="@+id/textViewMatchStatus"/>
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:visibility="gone"
+            android:id="@+id/matchActionsLayout">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?attr/actionTextColorSecondary"
+                android:textStyle="bold"
+                android:text="@string/ok"
+                android:id="@+id/textViewOk"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?attr/actionTextColorSecondary"
+                android:textStyle="bold"
+                android:text="@string/dismiss"
+                android:id="@+id/textViewDismiss"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -75,7 +102,8 @@
             android:layout_height="80dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:id="@+id/gameNumsLayout">
             <Button
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -137,7 +165,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_marginRight="16dp"
+            android:id="@+id/gameActionsLayout">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
@@ -147,7 +176,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="?attr/actionTextColorSecondary"
                 android:textStyle="bold"
-                android:text="Nudge"
+                android:text="@string/nudge"
                 android:id="@+id/textViewNudge"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -158,10 +187,9 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="?attr/actionTextColorSecondary"
                 android:textStyle="bold"
-                android:text="Select / Guess"
+                android:text="@string/guess"
                 android:id="@+id/textViewGuessNSelect"/>
         </RelativeLayout>
-
 
     </LinearLayout>
 </com.cinnamon.guess.utils.MatchCardView >

@@ -1,6 +1,7 @@
 package com.cinnamon.guess.utils;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,14 +14,15 @@ import com.cinnamon.guess.SharedPrefs;
 
 import java.util.ArrayList;
 
-public abstract class BaseActivity extends Activity  implements
+public abstract class BaseActivity extends Activity implements
         GuessApp.ConnectivityListener,
-        NetworkTask.NetworkTaskListener {
+        AsyncTaskListener {
     private static final String TAG = "GuessBaseActivity";
 
     protected static final int TOAST_LONG = Toast.LENGTH_LONG;
     protected static final int TOAST_SHORT = Toast.LENGTH_SHORT;
-    private static final int SYSTEM_UI_FULLSCREEN_FLAGS = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+    private static final int SYSTEM_UI_FULLSCREEN_FLAGS =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
@@ -32,7 +34,7 @@ public abstract class BaseActivity extends Activity  implements
 
     private View mDecorView;
 
-    protected ArrayList<NetworkTask> mNetworkTasks;
+    protected ArrayList<AsyncTask> mAsyncTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public abstract class BaseActivity extends Activity  implements
         mCurrentApiVersion = Build.VERSION.SDK_INT;
         setupDecorView();
         mConnected = GuessApp.getInstance().isConnected();
-        mNetworkTasks = new ArrayList<>();
+        mAsyncTasks = new ArrayList<>();
     }
 
     @Override
@@ -59,7 +61,7 @@ public abstract class BaseActivity extends Activity  implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        for (NetworkTask task : mNetworkTasks) {
+        for (AsyncTask task : mAsyncTasks) {
             task.cancel(true);
         }
     }
@@ -90,8 +92,8 @@ public abstract class BaseActivity extends Activity  implements
     protected void showSystemUI() {
         mDecorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
     }
 
     @Override
@@ -101,15 +103,15 @@ public abstract class BaseActivity extends Activity  implements
         // deal with connectivity changes
     }
 
-    public void onTaskCreated(NetworkTask task) {
-        mNetworkTasks.add(task);
+    public void onTaskCreated(AsyncTask task) {
+        mAsyncTasks.add(task);
     }
 
-    public void onTaskDestroyed(NetworkTask task) {
-        mNetworkTasks.remove(task);
+    public void onTaskDestroyed(AsyncTask task) {
+        mAsyncTasks.remove(task);
     }
 
     protected void toast(String str) {
-        Toast.makeText(getApplicationContext(), str, TOAST_LONG).show();
+        Toast.makeText(getApplicationContext(), str, TOAST_SHORT).show();
     }
 }

@@ -46,22 +46,4 @@ public class MatchCardView extends CardView {
     public MatchCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        /*int i = new Random().nextInt(sDarkBgColors.length);
-        int id = SharedPrefs.getDarkTheme(getContext()) ?
-                sDarkBgColors[i] : R.color.cardview_light_background;
-        setCardBackgroundColor(getResources().getColor(id));*/
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        /*int i = new Random().nextInt(sDarkBgColors.length);
-        int id = SharedPrefs.getDarkTheme(getContext()) ?
-                sDarkBgColors[i] : R.color.cardview_light_background;
-        setCardBackgroundColor(getResources().getColor(id));*/
-        super.onDraw(canvas);
-    }
 }

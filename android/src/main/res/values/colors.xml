@@ -7,6 +7,11 @@
     <color name="primary_dark">@color/indigo_700</color>
     <color name="accent">@color/pink_A200</color>-->
 
+    <color name="refresh_progress_light">#FFFAFAFA</color>
+    <color name="refresh_progress_light_accent">#FF202020</color>
+    <color name="refresh_progress">#FF202020</color>
+    <color name="refresh_progress_accent">#FFFAFAFA</color>
+
     <color name="num_plain">#DA000000</color>
     <color name="num_selected">#DAFFFFFF</color>
     <color name="num_disabled">#61000000</color>

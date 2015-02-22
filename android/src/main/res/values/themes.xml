@@ -4,6 +4,7 @@
         <item name="android:progressBarStyle">@android:style/Widget.ProgressBar.Small</item>
         <item name="android:windowFullscreen">true</item>
 
+
         <item name="colorNumPlain">@color/num_plain</item>
         <item name="colorNumSelected">@color/num_selected</item>
         <item name="colorNumDisabled">@color/num_disabled</item>
@@ -40,6 +41,7 @@
         <item name="actionTextColorSecondary">@color/num_color_state_list_light</item>
 
         <item name="backgroundProfilePic">@drawable/ic_mood_white_48dp</item>
+        backgroundLeaveMatch
     </style>
 
 </resources>

@@ -7,6 +7,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchEntity;
+
+import java.util.ArrayList;
+import java.util.Set;
+
 public class SharedPrefs {
 
     private static final String SHARED_PREFS_FILE = SharedPrefs.class.getSimpleName();
@@ -76,6 +81,7 @@ public class SharedPrefs {
         editor.putBoolean(PREF_DEVICE_REGISTERED, registered).commit();
     }
 
+
     private static final String PREF_THEME = "key_pref_theme";
     public static boolean getDarkTheme(Context context) {
         final SharedPreferences prefs = getSharedPreferences(context);
@@ -84,5 +90,16 @@ public class SharedPrefs {
     public static void setDarkTheme(Context context, boolean dark) {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putBoolean(PREF_THEME, dark).commit();
+    }
+
+
+    private static final String PREF_IMAGES = "key_images";
+    public static Set<String> getImages(Context context) {
+        final SharedPreferences prefs = getSharedPreferences(context);
+        return prefs.getStringSet(PREF_IMAGES, null);
+    }
+    public static void setImages(Context context, Set<String> images) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putStringSet(PREF_IMAGES, images).commit();
     }
 }

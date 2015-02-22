@@ -6,8 +6,8 @@ import android.view.View;
 public abstract class NetworkTask<Params, Result> extends AsyncTask<Params, Void, Result> {
     // empty declaration
     private View mProgressBar;
-    private NetworkTaskListener mListener;
-    protected NetworkTask(View v, NetworkTaskListener listener) {
+    private AsyncTaskListener mListener;
+    protected NetworkTask(View v, AsyncTaskListener listener) {
         mProgressBar = v;
         mListener = listener;
     }
@@ -42,8 +42,8 @@ public abstract class NetworkTask<Params, Result> extends AsyncTask<Params, Void
         mListener.onTaskDestroyed(this);
     }
 
-    public interface NetworkTaskListener {
+    /*public interface NetworkTaskListener {
         public void onTaskCreated(NetworkTask task);
         public void onTaskDestroyed(NetworkTask task);
-    }
+    }*/
 }
